@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "lcm.apocng.fullname" . }}
+  labels:
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "lcm.apocng.fullname" . }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "lcm.apocng.fullname" . }}
+    spec:
+      containers:
+      - name: apocng
+        image: "{{ .Values.apocng.image.repository }}{{ .Values.apocng.image.name }}:{{ .Values.apocng.image.tag }}"
+        imagePullPolicy: {{ .Values.apocng.image.pullPolicy }}
+        env:
+        - name: REDIS_HOST
+          value: {{ template "lcm.redis-address" . }}
+        - name: REDIS_PASSWORD
+          value: {{ .Values.spinnaker.redis.redisPassword }}
+        - name: SPINNAKER_HOST
+          value: http://{{ template "lcm.gate-address" . }}
+        resources:
+{{ toYaml .Values.apocng.resources | indent 10 }}

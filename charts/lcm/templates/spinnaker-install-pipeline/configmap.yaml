@@ -1,0 +1,249 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "lcm.fullname" . }}-install
+data:
+  install.json: |
+    {
+      "application": "{{ .Values.spinnaker.application.name }}",
+      "name": "Kubernetes install",
+      "appConfig": {},
+      "keepWaitingPipelines": false,
+      "lastModifiedBy": "anonymous",
+      "limitConcurrent": true,
+      "parallel": true,
+      "parameterConfig": [
+        {
+          "default": "3",
+          "description": "Number of nodes",
+          "name": "N"
+        },
+        {
+          "name": "ENV_ID"
+        },
+        {
+          "default": "false",
+          "name": "DEBUG"
+        },
+        {
+          "name": "AWS_ACCESS_KEY"
+        },
+        {
+          "name": "AWS_SECRET_KEY"
+        },
+        {
+          "name": "AWS_REGION"
+        }
+      ],
+      "stages": [
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cxe",
+              "ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/provision/playbook.yml"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "k8sprayorg",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Provision nodes",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "2",
+          "requisiteStageRefIds": [
+            "1"
+          ],
+          "type": "runJob",
+          "volumeSources": []
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cxe",
+              "curl -d '{\"apocng_uuid\": \"${ parameters.ENV_ID }\", \"apocng_debug\": ${ parameters.DEBUG }, \"apocng_k8s_nodes\": ${ parameters.N }, \"apocng_aws\": {\"access_key\": \"${ parameters.AWS_ACCESS_KEY }\", \"secret_key\": \"${ parameters.AWS_SECRET_KEY }\", \"region\": \"${ parameters.AWS_REGION }\"}}' -k -f https://apocng-k8spray/api/store2/${ parameters.ENV_ID }/"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "appropriate",
+              "registry": "index.docker.io",
+              "repository": "appropriate/curl",
+              "tag": "latest"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Prepare config",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "1",
+          "requisiteStageRefIds": [],
+          "type": "runJob",
+          "volumeSources": []
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cex",
+              "ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/workflow/prepare.yml"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "k8sprayorg",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Prepare nodes",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "3",
+          "requisiteStageRefIds": [
+            "2"
+          ],
+          "type": "runJob",
+          "volumeSources": []
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cex",
+              "ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/workflow/deployment.yml"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "k8sprayorg",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Deploy Kubernetes",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "4",
+          "requisiteStageRefIds": [
+            "3"
+          ],
+          "type": "runJob",
+          "volumeSources": []
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cex",
+              "ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/workflow/configure.yml"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "k8sprayorg",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Configure Kubernetes",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "5",
+          "requisiteStageRefIds": [
+            "4"
+          ],
+          "type": "runJob",
+          "volumeSources": []
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cex",
+              "ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/workflow/migrate.yml"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "k8sprayorg",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Migrate lcm",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "6",
+          "requisiteStageRefIds": [
+            "5"
+          ],
+          "type": "runJob",
+          "volumeSources": []
+        }
+      ],
+      "triggers": []
+    }

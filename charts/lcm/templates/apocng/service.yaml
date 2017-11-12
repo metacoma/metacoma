@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "lcm.apocng.fullname" . }}
+  labels:
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "lcm.apocng.fullname" . }}
+spec:
+  ports:
+    - port: 443
+      name: https
+  selector:
+    app: {{ template "lcm.apocng.fullname" . }}
+  type: ClusterIP

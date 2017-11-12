@@ -1,0 +1,32 @@
+{{- if .Values.Master.ingress.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "jenkins.master-fullname" . }}
+  labels:
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "jenkins.master-fullname" . }}
+  annotations:
+{{ toYaml .Values.Master.ingress.annotations | indent 4 }}
+spec:
+  {{- if .Values.Master.ingress.tls.enabled }}
+  tls:
+    - hosts:
+      {{- range .Values.Master.ingress.hosts }}
+      - {{ . }}
+      {{- end }}
+      secretName: {{ .Values.Master.ingress.tls.secretName }}
+  {{- end }}
+  rules:
+    {{- $ctx := . }}
+    {{- range .Values.Master.ingress.hosts }}
+    - host: {{ . }}
+      http:
+        paths:
+          - backend:
+              serviceName: {{ template "jenkins.master-fullname" $ctx }}
+              servicePort: {{ $.Values.Master.port }}
+    {{- end -}}
+{{- end -}}

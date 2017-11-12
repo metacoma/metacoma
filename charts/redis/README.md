@@ -1,0 +1,5 @@
+# Redis
+
+```console
+$ helm install .
+```

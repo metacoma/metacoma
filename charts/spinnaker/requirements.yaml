@@ -1,0 +1,13 @@
+dependencies:
+- name: redis
+  version: ^0.x
+  repository: file://../redis
+  condition: redis.deployChart
+- name: minio
+  version: ^0.x
+  repository: file://../minio
+  condition: minio.deployChart
+- name: jenkins
+  version: ^0.x
+  repository: file://../jenkins
+  condition: jenkins.deployChart

@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "lcm.nginx-basic-auth.fullname" . }}
+  labels:
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "lcm.nginx-basic-auth.fullname" . }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "lcm.nginx-basic-auth.fullname" . }}
+    spec:
+      containers:
+      - name: nginx
+        image: "{{ .Values.nginxBasicAuth.image.repository }}{{ .Values.nginxBasicAuth.image.name }}:{{ .Values.nginxBasicAuth.image.tag }}"
+        imagePullPolicy: {{ .Values.nginxBasicAuth.image.pullPolicy }}
+        env:
+        - name: BASIC_AUTH_USERNAME
+          value: {{ .Values.nginxBasicAuth.user }}
+        - name: BASIC_AUTH_PASSWORD
+          value: {{ .Values.nginxBasicAuth.password }}
+        - name: PROXY_PASS
+          value: http://{{ template "lcm.deck-address" . }}
+        - name: CLIENT_MAX_BODY_SIZE
+          value: {{ .Values.nginxBasicAuth.clientMaxBodySize }}
+        - name: PROXY_READ_TIMEOUT
+          value: {{ .Values.nginxBasicAuth.proxyReadTimeout }}
+        resources:
+{{ toYaml .Values.nginxBasicAuth.resources | indent 10 }}

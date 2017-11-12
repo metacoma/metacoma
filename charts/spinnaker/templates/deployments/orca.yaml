@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "spinnaker.fullname" . }}-orca
+  labels:
+    app: {{ template "spinnaker.fullname" . }}
+    component: orca
+spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap/spinnaker-config.yaml") . | sha256sum }}
+      labels:
+        app: {{ template "spinnaker.fullname" . }}
+        component: orca
+    spec:
+      containers:
+        - image: {{ .Values.images.orca }}
+          name: orca
+          ports:
+            - containerPort: 8083
+              name: orca
+          volumeMounts:
+            - mountPath: /opt/spinnaker/config
+              name: {{ template "spinnaker.fullname" . }}-spinnaker-config
+          readinessProbe:
+            httpGet:
+              path: /env
+              port: 8083
+            initialDelaySeconds: 20
+            timeoutSeconds: 1
+      volumes:
+        - name: {{ template "spinnaker.fullname" . }}-spinnaker-config
+          configMap:
+            name: {{ template "spinnaker.fullname" . }}-spinnaker-config

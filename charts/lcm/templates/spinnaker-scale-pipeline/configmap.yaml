@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "lcm.fullname" . }}-scale
+data:
+  scale.json: |
+    {
+      "application": "{{ .Values.spinnaker.application.name }}",
+      "name": "Kubernetes scale",
+      "appConfig": {},
+      "keepWaitingPipelines": false,
+      "lastModifiedBy": "anonymous",
+      "limitConcurrent": true,
+      "parallel": true,
+      "parameterConfig": [
+        {
+          "default": "1",
+          "description": "Number of nodes to add",
+          "name": "N"
+        },
+        {
+          "default": "false",
+          "name": "DEBUG"
+        }
+      ],
+      "stages": [
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cxe",
+              "current=$(curl -kSs https://apocng-k8spray/api/store2/{{ .Values.envId }}/ | jq '.apocng_k8s_nodes') && new=$(( $current + ${ parameters.N } )) && curl -d \"{\\\"apocng_k8s_nodes\\\": $new}\" -k -f https://apocng-k8spray/api/store2/{{ .Values.envId }}/"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "k8sprayorg",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Prepare config",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "1",
+          "requisiteStageRefIds": [],
+          "type": "runJob",
+          "volumeSources": []
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cex",
+              "ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg ansible-playbook -e env_id=\"{{ .Values.envId }}\" /opt/playbooks/workflow/scale.yml"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "k8sprayorg",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Scale Kubernetes",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "2",
+          "requisiteStageRefIds": [
+            "1"
+          ],
+          "type": "runJob",
+          "volumeSources": []
+        }
+      ],
+      "triggers": []
+    }

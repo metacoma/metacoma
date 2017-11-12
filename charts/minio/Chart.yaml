@@ -1,0 +1,4 @@
+name: minio
+description: Distributed object storage server built for cloud applications and devops.
+version: 0.1.0
+icon: https://www.minio.io/img/logo_160x160.png

@@ -1,0 +1,63 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "spinnaker.fullname" . }}-clouddriver
+  labels:
+    app: {{ template "spinnaker.fullname" . }}
+    component: clouddriver
+spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap/spinnaker-config.yaml") . | sha256sum }}
+      labels:
+        app: {{ template "spinnaker.fullname" . }}
+        component: clouddriver
+    spec:
+      serviceAccountName: {{ template "spinnaker.fullname" . }}-clouddriver
+      containers:
+        - image: {{ .Values.images.clouddriver }}
+          name: clouddriver
+          ports:
+            - containerPort: 7002
+              name: clouddriver
+          volumeMounts:
+            - mountPath: /opt/spinnaker/config
+              name: {{ template "spinnaker.fullname" . }}-spinnaker-config
+            - mountPath: /tmp/registry
+              name: {{ template "spinnaker.fullname" . }}-registry
+            {{ if .Values.providers.google.enabled }}
+            - mountPath: /root/.google
+              name: google
+            {{ end }}
+            {{ if .Values.providers.aws.enabled }}
+            - mountPath: /root/.aws
+              name: {{ template "spinnaker.fullname" . }}-aws
+            {{ end }}
+          readinessProbe:
+            httpGet:
+              path: /credentials
+              port: 7002
+            initialDelaySeconds: 20
+            timeoutSeconds: 1
+      volumes:
+        - name: {{ template "spinnaker.fullname" . }}-spinnaker-config
+          configMap:
+            name: {{ template "spinnaker.fullname" . }}-spinnaker-config
+        - name: {{ template "spinnaker.fullname" . }}-registry
+          secret:
+            secretName: {{ template "spinnaker.fullname" . }}-registry
+        {{ if .Values.providers.google.enabled }}
+        - name: google
+          secret:
+            secretName: {{ template "spinnaker.fullname" . }}-google
+        {{ end }}
+        {{ if .Values.providers.aws.enabled }}
+        - name: {{ template "spinnaker.fullname" . }}-aws
+          configMap:
+            name: {{ template "spinnaker.fullname" . }}-aws
+        {{ end }}

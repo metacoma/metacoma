@@ -1,0 +1,31 @@
+providers:
+  minikube:
+    enabled: false
+  aws:
+    enabled: true
+
+nginxBasicAuth:
+  service:
+    type: LoadBalancer
+
+spinnaker:
+  rbac:
+    enabled: true
+  redis:
+    persistence:
+      enabled: true
+      storageClass: gp2
+  minio:
+    replicas: 4
+    persistence:
+      type: PersistentVolumeClaim
+      storageClass: gp2
+
+loghouse:
+  service:
+    type: LoadBalancer
+  rbac:
+    enabled: true
+
+
+  

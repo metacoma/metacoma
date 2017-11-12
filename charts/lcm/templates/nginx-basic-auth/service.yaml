@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "lcm.nginx-basic-auth.fullname" . }}
+  labels:
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "lcm.nginx-basic-auth.fullname" . }}
+{{- if .Values.nginxBasicAuth.service.annotations }}
+  annotations:
+{{ toYaml .Values.nginxBasicAuth.service.annotations | indent 4}}
+{{- end }}
+spec:
+  ports:
+    - port: 80
+      name: http
+      {{- if eq .Values.nginxBasicAuth.service.type "NodePort" }}
+      {{- if .Values.nginxBasicAuth.service.nodePort }}
+      nodePort: {{ .Values.nginxBasicAuth.service.nodePort }}
+      {{- end -}}
+      {{- end }}
+  selector:
+    app: {{ template "lcm.nginx-basic-auth.fullname" . }}
+  type: "{{ .Values.nginxBasicAuth.service.type }}"
+{{- if eq .Values.nginxBasicAuth.service.type "LoadBalancer" }}
+  {{- if .Values.nginxBasicAuth.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.nginxBasicAuth.service.loadBalancerIP }}
+  {{- end -}}
+  {{- if .Values.nginxBasicAuth.service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+  {{- range .Values.nginxBasicAuth.service.loadBalancerSourceRanges }}
+  - {{ . }}
+  {{- end }}
+  {{- end -}}
+{{- end -}}

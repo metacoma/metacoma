@@ -1,0 +1,80 @@
+providers:
+  minikube:
+    enabled: true
+  aws:
+    enabled: false
+
+envId: ""
+
+apocng:
+  image:
+    repository: k8sprayorg/
+    name: openresty
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources: {}
+
+nginxBasicAuth:
+  user: k8spray
+  password: k8spray
+
+  clientMaxBodySize: 100m
+  proxyReadTimeout: 60s
+
+  service:
+    type: NodePort # or ClusterIP or LoadBalancer
+
+    nodePort: ""
+
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+
+    annotations: {}
+
+  image:
+    repository: quay.io/dtan4/
+    name: nginx-basic-auth-proxy
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources: {}
+
+spinnaker:
+  application:
+    name: lcm
+    email: lcm@lcm
+  pipelines:
+    install:
+      name: Install
+      image:
+        account: dockerhub
+        registry: index.docker.io
+        repository: kshatrix/test
+        tag: latest
+
+    scale:
+      name: Scale
+      image:
+        account: dockerhub
+        registry: index.docker.io
+        repository: kshatrix/test
+        tag: latest
+
+  minio:
+    replicas: 1
+
+  ui:
+    service:
+      type: ClusterIP
+
+  providers:
+    docker:
+      accounts:
+      - name: dockerhub
+        address: https://index.docker.io
+        repositories:
+          - kshatrix/test
+          - appropriate/curl
+          - k8sprayorg/ansible
+
+loghouse:
+  deployChart: true

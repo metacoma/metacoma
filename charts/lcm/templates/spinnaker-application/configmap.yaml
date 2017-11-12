@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "lcm.fullname" . }}-app
+data:
+  application.json: |
+    {
+      "job": [
+        {
+          "type": "createApplication",
+          "application": {
+            "cloudProviders": "kubernetes",
+            "instancePort": null,
+            "name": "{{ .Values.spinnaker.application.name }}",
+            "email": "{{ .Values.spinnaker.application.email }}"
+          },
+          "user": "[anonymous]"
+        }
+      ],
+      "application": "{{ .Values.spinnaker.application.name }}",
+      "description": "Create Application: {{ .Values.spinnaker.application.name }}"
+    }

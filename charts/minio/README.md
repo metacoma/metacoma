@@ -1,0 +1,5 @@
+# Minio
+
+```console
+$ helm install .
+```
