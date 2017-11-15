@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "lcm.fullname" . }}-aws
+  labels:
+    app: {{ template "lcm.fullname" . }}-aws
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "2"
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "lcm.fullname" . }}-aws
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: app
+        image: "k8sprayorg/ansible:2.3.0.0"
+        command:
+        - "sh"
+        - "-cxe"
+        - |
+          INSTALL_PIPELINE_ID=$(curl -s {{ template "lcm.gate-address" . }}/pipelineConfigs |  jq -r '.[] | select(.name == "Kubernetes install").id')
+          sed "s/\${INSTALL_PIPELINE_ID}/${INSTALL_PIPELINE_ID}/g" /tmp/body/aws.json | curl -d@- -f -m 10 -H "Content-Type: application/json" -H "Accept: application/json" http://{{ template "lcm.gate-address" . }}/pipelines
+        volumeMounts:
+        - mountPath: /tmp/body
+          name: pipeline
+      volumes:
+      - name: pipeline
+        configMap:
+          name: {{ template "lcm.fullname" . }}-aws
