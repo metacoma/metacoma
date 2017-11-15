@@ -9,10 +9,6 @@ spec:
   ports:
     - port: 8088
       name: igor
-    - port: 8080
-      name: jenkins-master
-    - port: 50000
-      name: jenkins-agent
   selector:
     app: {{ template "spinnaker.fullname" . }}
     component: igor

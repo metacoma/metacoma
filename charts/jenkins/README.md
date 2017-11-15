@@ -1,5 +1,0 @@
-# Jenkins
-
-```console
-$ helm install .
-```

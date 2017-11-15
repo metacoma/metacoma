@@ -464,12 +464,7 @@ data:
         #
         # Note that jenkins is not installed with Spinnaker so you must obtain this
         # on your own if you are interested.
-        enabled: true
-        defaultMaster:
-          name: default
-          baseUrl: {{ template "spinnaker.jenkins-master-address" . }}/
-          username: {{ .Values.jenkins.Master.AdminUser }}
-          password: {{ .Values.jenkins.Master.AdminPassword }}
+        enabled: false
 
       redis:
         connection: {{ template "spinnaker.redis-address" . }}
