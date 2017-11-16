@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "lcm.fullname" . }}-manual
+data:
+  manual.json: |
+    {
+      "application": "{{ .Values.spinnaker.application.name }}",
+      "name": "Kubernetes manual",
+      "appConfig": {},
+      "keepWaitingPipelines": false,
+      "lastModifiedBy": "anonymous",
+      "limitConcurrent": true,
+      "parallel": true,
+      "parameterConfig": [
+        {
+          "name": "ENV_ID"
+        },
+        {
+          "default": "false",
+          "name": "DEBUG"
+        },
+        {
+          "description": "List of IPs",
+          "name": "NODES"
+        },
+        {
+          "name": "USER"
+        },
+        {
+          "name": "SSH_PRIVATE_KEY"
+        }
+      ],
+      "stages": [
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cxe",
+              "ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/workflow/provision.yml"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "k8sprayorg",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Provision nodes",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "2",
+          "requisiteStageRefIds": [
+            "1"
+          ],
+          "type": "runJob",
+          "volumeSources": []
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cxe",
+              "nodes=$(echo -n ${ parameters.NODES } | jq -RMsc 'split(\",\")') && curl -d '{\"apocng_uuid\": \"${ parameters.ENV_ID }\", \"apocng_debug\": ${ parameters.DEBUG }, \"apocng_provision_driver\": \"manual\", \"apocng_manual_user\": ${ parameters.USER }, \"apocng_ssh_private_key\": ${ parameters.SSH_PRIVATE_KEY }, \"apocng_manual_nodes\": $nodes' -k -f https://apocng-k8spray/api/store2/${ parameters.ENV_ID }/"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "appropriate",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "job",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Prepare config",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "1",
+          "requisiteStageRefIds": [],
+          "type": "runJob",
+          "volumeSources": []
+        },
+        {
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "failPipeline": true,
+          "name": "Install Kubernetes",
+          "pipeline": "${INSTALL_PIPELINE_ID}",
+          "pipelineParameters": {
+            "ENV_ID": "${ parameters.ENV_ID }"
+          },
+          "refId": "3",
+          "requisiteStageRefIds": [
+            "2"
+          ],
+          "type": "pipeline",
+          "waitForCompletion": true
+        }
+      ],
+      "triggers": []
+    }
