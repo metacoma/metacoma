@@ -1,25 +1,32 @@
 apiVersion: v1
 entries:
   lcm:
-  - created: 2017-11-15T18:53:03.241596318+04:00
+  - created: 2017-11-16T17:48:33.671535+04:00
+    description: Kubernetes cluster lifecycle management
+    digest: 2d07ad924ea7a779fa099b1026b40dc07088d6638957e5cf55f063128381bfff
+    name: lcm
+    urls:
+    - lcm-0.4.0.tgz
+    version: 0.4.0
+  - created: 2017-11-16T17:48:33.669231+04:00
     description: Kubernetes cluster lifecycle management
     digest: f60b96fd3959fe003e40b537279ec3e959a48c90d725c00e74402837fee76af8
     name: lcm
     urls:
     - lcm-0.3.0.tgz
     version: 0.3.0
-  - created: 2017-11-15T18:53:03.239051097+04:00
+  - created: 2017-11-16T17:48:33.665914+04:00
     description: Kubernetes cluster lifecycle management
     digest: 27599a39ed6c8d471f0057976bc9205de5cc3d059338ab129c4ce2dde42fff64
     name: lcm
     urls:
     - lcm-0.2.0.tgz
     version: 0.2.0
-  - created: 2017-11-15T18:53:03.236953871+04:00
+  - created: 2017-11-16T17:48:33.663385+04:00
     description: Kubernetes cluster lifecycle management
     digest: 195161e1ff147ee7b225465e28dcbc2709400f1822225b7b191c30c2bd48ebf7
     name: lcm
     urls:
     - lcm-0.1.0.tgz
     version: 0.1.0
-generated: 2017-11-15T18:53:03.234501774+04:00
+generated: 2017-11-16T17:48:33.65894+04:00
