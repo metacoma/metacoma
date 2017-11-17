@@ -35,7 +35,7 @@ data:
             "command": [
               "sh",
               "-cxe",
-              "current=$(curl -kSs https://apocng-k8spray/api/store2/{{ .Values.envId }}/ | jq '.apocng_k8s_nodes') && new=$(( $current + ${ parameters.N } )) && curl -d \"{\\\"apocng_k8s_nodes\\\": $new}\" -k -f https://apocng-k8spray/api/store2/{{ .Values.envId }}/"
+              "current=$(curl -kSs https://{{ template "lcm.apocng.fullname" . }}/api/store2/{{ .Values.envId }}/ | jq '.apocng_k8s_nodes') && new=$(( $current + ${ parameters.N } )) && curl -d \"{\\\"apocng_k8s_nodes\\\": $new}\" -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/{{ .Values.envId }}/"
             ],
             "envVars": [],
             "imageDescription": {
