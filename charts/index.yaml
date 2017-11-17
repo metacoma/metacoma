@@ -1,46 +1,53 @@
 apiVersion: v1
 entries:
   lcm:
-  - created: 2017-11-17T17:11:34.177525+04:00
+  - created: 2017-11-17T17:32:05.537986+04:00
+    description: Kubernetes cluster lifecycle management
+    digest: 0e6aa5f0b803e504b4b57ab7f60233eb9dcf2c3d4e9da89f40a1764ea8c3fa5e
+    name: lcm
+    urls:
+    - lcm-0.4.3.tgz
+    version: 0.4.3
+  - created: 2017-11-17T17:32:05.536156+04:00
     description: Kubernetes cluster lifecycle management
     digest: 30b148cb4c9a6698e18dc29062f3acd5cf14de0754c892ec991848808663be99
     name: lcm
     urls:
     - lcm-0.4.2.tgz
     version: 0.4.2
-  - created: 2017-11-17T17:11:34.17534+04:00
+  - created: 2017-11-17T17:32:05.534245+04:00
     description: Kubernetes cluster lifecycle management
     digest: 6a053265469453f04e3e3ace6b41be71fd5f60d1da43087c7a222e2c25e7d561
     name: lcm
     urls:
     - lcm-0.4.1.tgz
     version: 0.4.1
-  - created: 2017-11-17T17:11:34.173183+04:00
+  - created: 2017-11-17T17:32:05.531127+04:00
     description: Kubernetes cluster lifecycle management
     digest: 2d07ad924ea7a779fa099b1026b40dc07088d6638957e5cf55f063128381bfff
     name: lcm
     urls:
     - lcm-0.4.0.tgz
     version: 0.4.0
-  - created: 2017-11-17T17:11:34.166732+04:00
+  - created: 2017-11-17T17:32:05.528736+04:00
     description: Kubernetes cluster lifecycle management
     digest: f60b96fd3959fe003e40b537279ec3e959a48c90d725c00e74402837fee76af8
     name: lcm
     urls:
     - lcm-0.3.0.tgz
     version: 0.3.0
-  - created: 2017-11-17T17:11:34.164245+04:00
+  - created: 2017-11-17T17:32:05.526646+04:00
     description: Kubernetes cluster lifecycle management
     digest: 27599a39ed6c8d471f0057976bc9205de5cc3d059338ab129c4ce2dde42fff64
     name: lcm
     urls:
     - lcm-0.2.0.tgz
     version: 0.2.0
-  - created: 2017-11-17T17:11:34.162047+04:00
+  - created: 2017-11-17T17:32:05.524523+04:00
     description: Kubernetes cluster lifecycle management
     digest: 195161e1ff147ee7b225465e28dcbc2709400f1822225b7b191c30c2bd48ebf7
     name: lcm
     urls:
     - lcm-0.1.0.tgz
     version: 0.1.0
-generated: 2017-11-17T17:11:34.159221+04:00
+generated: 2017-11-17T17:32:05.522092+04:00
