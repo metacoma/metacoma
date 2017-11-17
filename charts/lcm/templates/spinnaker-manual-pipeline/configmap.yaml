@@ -78,7 +78,7 @@ data:
             "command": [
               "sh",
               "-cxe",
-              "nodes=$(echo -n ${ parameters.NODES } | jq -rRMsc 'split(\",\")') && curl -d '{\"apocng_uuid\": \"${ parameters.ENV_ID }\", \"apocng_debug\": \"${ parameters.DEBUG }\", \"apocng_provision_driver\": \"manual\", \"apocng_manual_user\": \"${ parameters.USER }\", \"apocng_ssh_private_key\": \"${ parameters.SSH_PRIVATE_KEY }\", \"apocng_manual_nodes\": $nodes}' -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/${ parameters.ENV_ID }/"
+              "nodes=$(echo -n ${ parameters.NODES } | jq -rRMsc 'split(\",\")') && curl -d \"{\\\"apocng_uuid\\\": \\\"${ parameters.ENV_ID }\\\", \\\"apocng_debug\\\": \\\"${ parameters.DEBUG }\\\", \\\"apocng_provision_driver\\\": \\\"manual\\\", \\\"apocng_manual_user\\\": \\\"${ parameters.USER }\\\", \\\"apocng_ssh_private_key\\\": \\\"${ parameters.SSH_PRIVATE_KEY }\\\", \\\"apocng_manual_nodes\\\": $nodes}\" -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/${ parameters.ENV_ID }/"
             ],
             "envVars": [],
             "imageDescription": {
