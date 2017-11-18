@@ -62,7 +62,7 @@ data:
             "command": [
               "sh",
               "-cex",
-              "ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/workflow/deployment.yml"
+              "export ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg && ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/workflow/deployment.yml && ansible-playbook -i /tmp/inventory.cfg -e@/tmp/${ parameters.ENV_ID }-kubespray-values /opt/playbooks/kubespray/cluster.yml --become"
             ],
             "envVars": [],
             "imageDescription": {
