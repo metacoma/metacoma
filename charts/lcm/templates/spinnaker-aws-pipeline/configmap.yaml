@@ -47,7 +47,7 @@ data:
             "command": [
               "sh",
               "-cxe",
-              "ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/provision/playbook.yml"
+              "ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/workflow/provision.yml"
             ],
             "envVars": [],
             "imageDescription": {
