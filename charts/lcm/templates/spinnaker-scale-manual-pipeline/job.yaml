@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "lcm.fullname" . }}-scale
+  name: {{ template "lcm.fullname" . }}-scale-manual
   labels:
-    app: {{ template "lcm.fullname" . }}-scale
+    app: {{ template "lcm.fullname" . }}-scale-manual
   annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "lcm.fullname" . }}-scale
+        app: {{ template "lcm.fullname" . }}-scale-manual
     spec:
       restartPolicy: OnFailure
       containers:
@@ -37,4 +37,4 @@ spec:
       volumes:
       - name: pipeline
         configMap:
-          name: {{ template "lcm.fullname" . }}-scale
+          name: {{ template "lcm.fullname" . }}-scale-manual

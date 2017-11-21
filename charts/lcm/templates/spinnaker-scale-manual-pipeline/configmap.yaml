@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "lcm.fullname" . }}-scale
+  name: {{ template "lcm.fullname" . }}-scale-manual
 data:
   scale.json: |
     {
       "application": "{{ .Values.spinnaker.application.name }}",
-      "name": "Kubernetes scale",
+      "name": "Kubernetes manual scale",
       "appConfig": {},
       "keepWaitingPipelines": false,
       "lastModifiedBy": "anonymous",
@@ -14,9 +14,8 @@ data:
       "parallel": true,
       "parameterConfig": [
         {
-          "default": "1",
-          "description": "Number of nodes to add",
-          "name": "N"
+          "description": "List of node IPs to add",
+          "name": "NODES"
         },
         {
           "default": "false",
@@ -35,7 +34,7 @@ data:
             "command": [
               "sh",
               "-cxe",
-              "current=$(curl -kSs https://{{ template "lcm.apocng.fullname" . }}/api/store2/{{ .Values.envId }}/ | jq '.apocng_k8s_nodes') && new=$(( $current + ${ parameters.N } )) && curl -d \"{\\\"apocng_k8s_nodes\\\": $new}\" -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/{{ .Values.envId }}/"
+              "new=$(echo -n ${ parameters.NODES } | jq -rRMsc 'split(\",\")') && nodes=$(curl -kSs https://{{ template "lcm.apocng.fullname" . }}/api/store2/{{ .Values.envId }}/ | jq \".apocng_manual_nodes += $new\" | jq '.apocng_manual_nodes') && curl -d \"{\\\"apocng_manual_nodes\\\": $nodes}\" -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/{{ .Values.envId }}/"
             ],
             "envVars": [],
             "imageDescription": {
