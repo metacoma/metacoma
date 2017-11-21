@@ -82,7 +82,7 @@ data:
             "command": [
               "sh",
               "-cxe",
-              "curl -d '{\"apocng_uuid\": \"${ parameters.ENV_ID }\", \"apocng_debug\": ${ parameters.DEBUG }, \"apocng_k8s_nodes\": ${ parameters.N }, \"apocng_aws\": {\"access_key\": \"${ parameters.AWS_ACCESS_KEY }\", \"secret_key\": \"${ parameters.AWS_SECRET_KEY }\", \"region\": \"${ parameters.AWS_REGION }\"}}' -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/${ parameters.ENV_ID }/"
+              "curl -d '{\"apocng_uuid\": \"${ parameters.ENV_ID }\", \"apocng_debug\": ${ parameters.DEBUG },  \"apocng_provision_driver\": \"terraform\", \"apocng_k8s_nodes\": ${ parameters.N }, \"apocng_aws\": {\"access_key\": \"${ parameters.AWS_ACCESS_KEY }\", \"secret_key\": \"${ parameters.AWS_SECRET_KEY }\", \"region\": \"${ parameters.AWS_REGION }\"}}' -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/${ parameters.ENV_ID }/"
             ],
             "envVars": [],
             "imageDescription": {
