@@ -42,22 +42,6 @@ spinnaker:
   application:
     name: lcm
     email: lcm@lcm
-  pipelines:
-    install:
-      name: Install
-      image:
-        account: dockerhub
-        registry: index.docker.io
-        repository: kshatrix/test
-        tag: latest
-
-    scale:
-      name: Scale
-      image:
-        account: dockerhub
-        registry: index.docker.io
-        repository: kshatrix/test
-        tag: latest
 
   minio:
     replicas: 1
@@ -77,4 +61,4 @@ spinnaker:
           - k8sprayorg/ansible
 
 loghouse:
-  deployChart: true
+  deployChart: false
