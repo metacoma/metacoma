@@ -61,4 +61,4 @@ spinnaker:
           - k8sprayorg/ansible
 
 loghouse:
-  deployChart: false
+  deployChart: true
