@@ -6,7 +6,7 @@ data:
   aws.json: |
     {
       "application": "{{ .Values.spinnaker.application.name }}",
-      "name": "Kubernetes AWS",
+      "name": "Kubernetes AWS install",
       "appConfig": {},
       "keepWaitingPipelines": false,
       "lastModifiedBy": "anonymous",

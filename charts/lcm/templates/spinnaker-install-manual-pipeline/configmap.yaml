@@ -6,7 +6,7 @@ data:
   manual.json: |
     {
       "application": "{{ .Values.spinnaker.application.name }}",
-      "name": "Kubernetes manual",
+      "name": "Kubernetes manual install",
       "appConfig": {},
       "keepWaitingPipelines": false,
       "lastModifiedBy": "anonymous",
