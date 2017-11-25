@@ -59,6 +59,3 @@ spinnaker:
           - kshatrix/test
           - appropriate/curl
           - k8sprayorg/ansible
-
-loghouse:
-  deployChart: true
