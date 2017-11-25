@@ -1,0 +1,21 @@
+image:
+  repository: balabit/
+  name: syslog-ng
+  tag: latest
+  pullPolicy: IfNotPresent
+
+configFile: |
+  @version: 3.12
+
+  log {
+    source { udp(ip('0.0.0.0'), port(514)); tcp(ip('0.0.0.0'), port(601)); };
+    destination {  file("/var/log/all.log"); };
+  };
+
+resources:
+  #requests:
+  #  cpu: 100m
+  #  memory: 512Mi
+  #limits:
+  #  cpu: 100m
+  #  memory: 512Mi
