@@ -1,0 +1,4 @@
+dependencies:
+- name: syslog
+  version: ^0.x
+  repository: file://../syslog

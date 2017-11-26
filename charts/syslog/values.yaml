@@ -9,7 +9,7 @@ configFile: |
 
   log {
     source { udp(ip('0.0.0.0'), port(514)); tcp(ip('0.0.0.0'), port(601)); };
-    destination {  file("/var/log/all.log"); };
+    destination { file("/dev/stdout" template("${MESSAGE}\n")); };
   };
 
 resources:

@@ -45,7 +45,7 @@ data:
               "repository": "k8sprayorg/ansible",
               "tag": "2.3.0.0"
             },
-            "name": "job",
+            "name": "k8spray",
             "volumeMounts": []
           },
           "labels": {},
@@ -78,7 +78,7 @@ data:
               "repository": "k8sprayorg/ansible",
               "tag": "2.3.0.0"
             },
-            "name": "job",
+            "name": "k8spray",
             "volumeMounts": []
           },
           "labels": {},

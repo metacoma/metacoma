@@ -1,0 +1,66 @@
+image:
+  repository: k8sprayorg/
+  name: fluent-syslog
+  tag: latest
+  pullPolicy: IfNotPresent
+
+configFile: |
+  <system>
+    log_level warn
+  </system>
+
+  <source>
+    @type tail
+    @label @KUBERNETES
+    path /var/log/containers/*.log
+    pos_file /var/log/kubernetes-logging-containers.log.pos
+    time_format %Y-%m-%dT%H:%M:%S
+    tag kubernetes.*
+    format json
+    keep_time_key false
+    read_from_head true
+  </source>
+
+  <label @KUBERNETES>
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+      kubernetes_url "https://kubernetes.default"
+      bearer_token_file /var/run/secrets/kubernetes.io/serviceaccount/token
+      ca_file /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    </filter>
+    <filter kubernetes.**>
+      @type flatten_hash
+      separator _
+    </filter>
+    <filter kubernetes.**>
+      @type grep
+      regexp1 kubernetes_container_name k8spray
+    </filter>
+    <filter kubernetes.**>
+      @type record_transformer
+      enable_ruby
+      renew_record true
+      <record>
+        message ${(message rescue nil) || record["log"]}
+      </record>
+    </filter>
+
+    <match **>
+       @type kubernetes_remote_syslog
+       host "#{ENV['SYSLOG_HOST']}"
+       port "#{ENV['SYSLOG_PORT']}"
+       tag fluent-kubernetes-syslog
+       severity info
+       output_data_type "attr:message"
+       output_include_tag no
+       output_include_time no
+    </match>
+  </label>
+
+resources:
+  #requests:
+  #  cpu: 100m
+  #  memory: 512Mi
+  #limits:
+  #  cpu: 100m
+  #  memory: 512Mi
