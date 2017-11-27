@@ -8,6 +8,7 @@ charts_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/charts"
 
 for chart in spinnaker fluentd lcm; do
     pushd "$charts_dir/$chart"
+    rm -rf charts
     helm dep up
     popd
 done
