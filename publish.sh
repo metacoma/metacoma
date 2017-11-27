@@ -6,7 +6,7 @@ charts_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/charts"
 
 # Update dependencies
 
-for chart in spinnaker lcm; do
+for chart in spinnaker fluentd lcm; do
     pushd "$charts_dir/$chart"
     helm dep up
     popd

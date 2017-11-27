@@ -19,6 +19,11 @@ spec:
         image: "{{ .Values.image.repository }}{{ .Values.image.name }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         args: ["--no-caps"]
+        readinessProbe:
+          tcpSocket:
+            port: 601
+          initialDelaySeconds: {{ .Values.probeInitialDelaySeconds }}
+          periodSeconds: {{ .Values.probePeriodSeconds }}
         volumeMounts:
         - mountPath: /etc/syslog-ng/syslog-ng.conf
           subPath: syslog-ng.conf

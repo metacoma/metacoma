@@ -12,6 +12,9 @@ configFile: |
     destination { file("/dev/stdout" template("${MESSAGE}\n")); };
   };
 
+probeInitialDelaySeconds: 5
+probePeriodSeconds: 5
+
 resources:
   #requests:
   #  cpu: 100m

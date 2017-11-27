@@ -57,6 +57,9 @@ configFile: |
     </match>
   </label>
 
+rbac:
+  enabled: false
+
 resources:
   #requests:
   #  cpu: 100m

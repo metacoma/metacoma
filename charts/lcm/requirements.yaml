@@ -2,6 +2,7 @@ dependencies:
 - name: spinnaker
   version: ^0.x
   repository: file://../spinnaker
-- name: syslog
+- name: fluentd
   version: ^0.x
-  repository: file://../syslog
+  repository: file://../fluentd
+  condition: fluentd.enabled
