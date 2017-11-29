@@ -58,39 +58,16 @@ data:
           "volumeSources": []
         },
         {
-          "account": "local",
-          "annotations": {},
           "application": "{{ .Values.spinnaker.application.name }}",
-          "cloudProvider": "kubernetes",
-          "cloudProviderType": "kubernetes",
-          "container": {
-            "args": [],
-            "command": [
-              "sh",
-              "-cex",
-              "ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg ansible-playbook -e env_id=\"{{ .Values.envId }}\" /opt/playbooks/workflow/scale.yml"
-            ],
-            "envVars": [],
-            "imageDescription": {
-              "account": "dockerhub",
-              "fromTrigger": false,
-              "organization": "k8sprayorg",
-              "registry": "index.docker.io",
-              "repository": "k8sprayorg/ansible",
-              "tag": "2.3.0.0"
-            },
-            "name": "k8spray",
-            "volumeMounts": []
-          },
-          "labels": {},
+          "failPipeline": true,
           "name": "Scale Kubernetes",
-          "namespace": "{{ .Release.Namespace }}",
+          "pipeline": "${SCALE_PIPELINE_ID}",
           "refId": "2",
           "requisiteStageRefIds": [
             "1"
           ],
-          "type": "runJob",
-          "volumeSources": []
+          "type": "pipeline",
+          "waitForCompletion": true
         }
       ],
       "triggers": []

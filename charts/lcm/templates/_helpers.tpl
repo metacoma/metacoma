@@ -19,5 +19,5 @@
 {{- end -}}
 
 {{- define "lcm.redis-address" -}}
-{{ template "redis.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.spinnaker.redis.service.port }}
+{{ template "redis.fullname" . }}.{{ .Release.Namespace }}.svc.bud-1:{{ .Values.spinnaker.redis.service.port }}
 {{- end -}}

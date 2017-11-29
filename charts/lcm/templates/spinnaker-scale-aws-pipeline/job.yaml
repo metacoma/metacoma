@@ -7,7 +7,7 @@ metadata:
   annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-delete-policy": hook-succeeded
-    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-weight": "2"
 spec:
   template:
     metadata:
@@ -17,20 +17,13 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: app
-        image: "appropriate/curl"
+        image: "k8sprayorg/ansible:2.3.0.0"
         command:
-        - curl
-        - -f
-        - -m
-        - "10"
-        - -d@/tmp/body/scale.json
-        - -X
-        - POST
-        - --header
-        - "Content-Type: application/json"
-        - --header
-        - "Accept: application/json"
-        - http://{{ template "lcm.gate-address" . }}/pipelines
+        - "sh"
+        - "-cxe"
+        - |
+          SCALE_PIPELINE_ID=$(curl -s {{ template "lcm.gate-address" . }}/pipelineConfigs |  jq -r '.[] | select(.name == "Kubernetes scale").id')
+          sed "s/\${SCALE_PIPELINE_ID}/${SCALE_PIPELINE_ID}/g" /tmp/body/scale.json | curl -d@- -f -m 10 -H "Content-Type: application/json" -H "Accept: application/json" http://{{ template "lcm.gate-address" . }}/pipelines
         volumeMounts:
         - mountPath: /tmp/body
           name: pipeline
