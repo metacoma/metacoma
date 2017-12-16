@@ -25,7 +25,7 @@ data:
             "command": [
               "sh",
               "-cex",
-              "ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg ansible-playbook -e env_id=\"{{ .Values.envId }}\" /opt/playbooks/workflow/scale.yml"
+              "export ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg && ansible-playbook -e env_id=\"{{ .Values.envId }}\" /opt/playbooks/workflow/scale.yml && ansible-playbook -i /tmp/inventory.cfg -e@/tmp/{{ .Values.envId }}-kubespray-values /opt/playbooks/kubespray/scale.yml --become"
             ],
             "envVars": [],
             "imageDescription": {
