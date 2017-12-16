@@ -9,8 +9,8 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     app: {{ template "lcm.apocng.fullname" . }}
 data:
-  nginx.crt:
+  nginx.crt: |
 {{ .Values.apocng.cert | indent 4 }}
-  nginx.key:
+  nginx.key: |
 {{ .Values.apocng.key | indent 4 }}
 {{- end }}
