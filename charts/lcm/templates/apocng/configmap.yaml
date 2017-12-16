@@ -1,0 +1,14 @@
+{{- if and .Values.apocng.key .Values.apocng.cert }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "lcm.apocng.fullname" . }}
+  labels:
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app: {{ template "lcm.apocng.fullname" . }}
+data:
+  nginx.crt: {{ .Values.apocng.crt }}
+  nginx.key: {{ .Values.apocng.key }}
+{{- end }}

@@ -14,6 +14,9 @@ apocng:
     pullPolicy: IfNotPresent
   resources: {}
 
+  key:
+  cert:
+
 nginxBasicAuth:
   user: k8spray
   password: k8spray

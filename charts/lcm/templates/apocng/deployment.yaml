@@ -25,5 +25,16 @@ spec:
           value: {{ .Values.spinnaker.redis.redisPassword }}
         - name: SPINNAKER_HOST
           value: http://{{ template "lcm.gate-address" . }}
+        {{- if and .Values.apocng.key .Values.apocng.cert }}
+        volumeMounts:
+        - mountPath: /usr/local/openresty/nginx/ssl
+          name: crtkey
+        {{- end }}
         resources:
 {{ toYaml .Values.apocng.resources | indent 10 }}
+      {{- if and .Values.apocng.key .Values.apocng.cert }}
+      volumes:
+      - name: crtkey
+        configMap:
+          name: {{ template "lcm.apocng.fullname" . }}
+      {{- end }}
