@@ -9,7 +9,7 @@ envId: ""
 apocng:
   image:
     repository: k8sprayorg/
-    name: openresty
+    name: site
     tag: latest
     pullPolicy: IfNotPresent
 
