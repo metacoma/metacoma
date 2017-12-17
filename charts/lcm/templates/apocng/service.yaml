@@ -7,10 +7,30 @@ metadata:
     release: "{{ .Release.Name }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     app: {{ template "lcm.apocng.fullname" . }}
+{{- if .Values.apocng.service.annotations }}
+  annotations:
+{{ toYaml .Values.apocng.service.annotations | indent 4}}
+{{- end }}
 spec:
   ports:
     - port: 443
       name: https
+      {{- if eq .Values.apocng.service.type "NodePort" }}
+      {{- if .Values.apocng.service.nodePort }}
+      nodePort: {{ .Values.apocng.service.nodePort }}
+      {{- end -}}
+      {{- end }}
   selector:
     app: {{ template "lcm.apocng.fullname" . }}
-  type: ClusterIP
+  type: "{{ .Values.apocng.service.type }}"
+{{- if eq .Values.apocng.service.type "LoadBalancer" }}
+  {{- if .Values.apocng.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.apocng.service.loadBalancerIP }}
+  {{- end -}}
+  {{- if .Values.apocng.service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+  {{- range .Values.apocng.service.loadBalancerSourceRanges }}
+  - {{ . }}
+  {{- end }}
+  {{- end -}}
+{{- end -}}

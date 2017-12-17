@@ -12,6 +12,17 @@ apocng:
     name: openresty
     tag: latest
     pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+
+    nodePort: ""
+
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+
+    annotations: {}
+
   resources: {}
 
   key:

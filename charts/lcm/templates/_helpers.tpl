@@ -11,11 +11,11 @@
 {{- end -}}
 
 {{- define "lcm.deck-address" -}}
-{{ template "spinnaker.fullname" . }}-deck:{{ .Values.spinnaker.ui.port }}
+{{ template "spinnaker.fullname" . }}-deck.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.spinnaker.ui.port }}
 {{- end -}}
 
 {{- define "lcm.gate-address" -}}
-{{ template "spinnaker.fullname" . }}-gate:8084
+{{ template "spinnaker.fullname" . }}-gate.{{ .Release.Namespace }}.svc.cluster.local:8084
 {{- end -}}
 
 {{- define "lcm.redis-address" -}}

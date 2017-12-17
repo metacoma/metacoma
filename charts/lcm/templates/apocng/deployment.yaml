@@ -24,7 +24,7 @@ spec:
         - name: REDIS_PASSWORD
           value: {{ .Values.spinnaker.redis.redisPassword }}
         - name: SPINNAKER_HOST
-          value: http://{{ template "lcm.gate-address" . }}
+          value: http://{{ template "lcm.deck-address" . }}
         {{- if and .Values.apocng.key .Values.apocng.cert }}
         volumeMounts:
         - mountPath: /usr/local/openresty/nginx/ssl
