@@ -155,6 +155,41 @@ data:
           ],
           "type": "runJob",
           "volumeSources": []
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "{{ .Values.spinnaker.application.name }}",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "container": {
+            "args": [],
+            "command": [
+              "sh",
+              "-cex",
+              "ANSIBLE_CONFIG=/opt/playbooks/workflow/ansible.cfg ansible-playbook -e env_id=\"${ parameters.ENV_ID }\" /opt/playbooks/workflow/info.yml"
+            ],
+            "envVars": [],
+            "imageDescription": {
+              "account": "dockerhub",
+              "fromTrigger": false,
+              "organization": "k8sprayorg",
+              "registry": "index.docker.io",
+              "repository": "k8sprayorg/ansible",
+              "tag": "2.3.0.0"
+            },
+            "name": "k8spray",
+            "volumeMounts": []
+          },
+          "labels": {},
+          "name": "Deployment information",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "7",
+          "requisiteStageRefIds": [
+            "6"
+          ],
+          "type": "runJob",
+          "volumeSources": []
         }
       ],
       "triggers": []
