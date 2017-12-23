@@ -12,4 +12,4 @@ data:
     #!/bin/sh
 
     syslog_pod=$(kubectl get pods -l app=syslog-k8spray -o jsonpath='{.items[*].metadata.name}')
-    kubectl --context default --kubeconfig /root/.kube/config logs -f syslog-k8spray-7679548d8d-f4wvt | perl -nle 'print $& if m{^k8spray-{{ .Values.envId }}\K.*}'
+    kubectl --context default --kubeconfig /root/.kube/config logs -f $syslog_pod | perl -nle 'print $& if m{^k8spray-{{ .Values.envId }}\K.*}'
