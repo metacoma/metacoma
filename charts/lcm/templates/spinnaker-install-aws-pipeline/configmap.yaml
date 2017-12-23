@@ -58,7 +58,7 @@ data:
               "repository": "k8sprayorg/ansible",
               "tag": "2.3.0.0"
             },
-            "name": "k8spray",
+            "name": "k8spray-${ parameters.ENV_ID }",
             "volumeMounts": []
           },
           "labels": {
