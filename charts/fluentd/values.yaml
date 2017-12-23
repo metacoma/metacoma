@@ -37,6 +37,7 @@ configFile: |
       <regexp>
         key kubernetes_container_name
         pattern ^k8spray
+      </regexp>
     </filter>
     <filter kubernetes.**>
       @type record_transformer
