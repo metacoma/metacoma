@@ -70,7 +70,6 @@ spinnaker:
       - name: dockerhub
         address: https://index.docker.io
         repositories:
-          - kshatrix/test
           - appropriate/curl
           - k8sprayorg/ansible
 
