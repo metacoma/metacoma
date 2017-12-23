@@ -41,7 +41,7 @@ configFile: |
       enable_ruby
       renew_record true
       <record>
-        message ${record["kubernetes_labels_envId"]} ${(message rescue nil) || record["log"]}
+        message ${record["kubernetes_container_name"]} ${(message rescue nil) || record["log"]}
       </record>
     </filter>
 
