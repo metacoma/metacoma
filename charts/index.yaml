@@ -1,7 +1,7 @@
 apiVersion: v1
 entries:
   fluentd:
-  - created: 2017-12-23T11:13:23.568214+04:00
+  - created: 2017-12-23T12:28:58.154183+04:00
     description: A Helm chart for Fluentd.
     digest: 09cf70c31f6813c95fa5b19ac0087e69aacfbe3968bfa4d2a5c3d6f98d91297e
     name: fluentd
@@ -9,175 +9,182 @@ entries:
     - fluentd/fluentd-0.1.0.tgz
     version: 0.1.0
   lcm:
-  - created: 2017-12-23T11:13:23.521053+04:00
+  - created: 2017-12-23T12:28:58.108498+04:00
+    description: Kubernetes cluster lifecycle management
+    digest: 174e376de115aad16a70e8cba8d343efbf947fe8106aeea09b2d55c0afdbf58e
+    name: lcm
+    urls:
+    - lcm-0.11.4.tgz
+    version: 0.11.4
+  - created: 2017-12-23T12:28:58.105377+04:00
     description: Kubernetes cluster lifecycle management
     digest: 01946094935959a7c3264b1cfc51b3f782cd8f4180d97e31dd26aca34004a027
     name: lcm
     urls:
     - lcm-0.11.3.tgz
     version: 0.11.3
-  - created: 2017-12-23T11:13:23.517841+04:00
+  - created: 2017-12-23T12:28:58.100864+04:00
     description: Kubernetes cluster lifecycle management
     digest: 2b6e09cf3a2589f6253fa92d11925bfb5b1102bdf1d265aa61e4135651b13686
     name: lcm
     urls:
     - lcm-0.11.2.tgz
     version: 0.11.2
-  - created: 2017-12-23T11:13:23.514699+04:00
+  - created: 2017-12-23T12:28:58.097629+04:00
     description: Kubernetes cluster lifecycle management
     digest: 31ffa89d79ad98be01e83dfc2778dfe23f61ce066fbaf151bce0cd78eb36e8fd
     name: lcm
     urls:
     - lcm-0.11.1.tgz
     version: 0.11.1
-  - created: 2017-12-23T11:13:23.511672+04:00
+  - created: 2017-12-23T12:28:58.094627+04:00
     description: Kubernetes cluster lifecycle management
     digest: 01d0a46c3f26df1075346b545115fced5354698c58af19f1e4789006f6667b76
     name: lcm
     urls:
     - lcm-0.11.0.tgz
     version: 0.11.0
-  - created: 2017-12-23T11:13:23.508798+04:00
+  - created: 2017-12-23T12:28:58.091809+04:00
     description: Kubernetes cluster lifecycle management
     digest: 93155be6138543af06621824bfa3722ca7c1a6316cccfea724a5a66142ed6a62
     name: lcm
     urls:
     - lcm-0.10.1.tgz
     version: 0.10.1
-  - created: 2017-12-23T11:13:23.504242+04:00
+  - created: 2017-12-23T12:28:58.08727+04:00
     description: Kubernetes cluster lifecycle management
     digest: 45ba284fe126d9a5be87ed2a8e7c54910ea0a214501deee75bf333a63a7ac636
     name: lcm
     urls:
     - lcm-0.10.0.tgz
     version: 0.10.0
-  - created: 2017-12-23T11:13:23.566928+04:00
+  - created: 2017-12-23T12:28:58.152711+04:00
     description: Kubernetes cluster lifecycle management
     digest: 0b252d7b9199a50c4dd8c372e361dca6aa7681a73d49604f41e90dc4a5f60a0a
     name: lcm
     urls:
     - lcm-0.9.0.tgz
     version: 0.9.0
-  - created: 2017-12-23T11:13:23.564097+04:00
+  - created: 2017-12-23T12:28:58.149852+04:00
     description: Kubernetes cluster lifecycle management
     digest: 9d9c4ad902adace85813d2999145e91fb417f8ef621c68d1f8ef01b465639e73
     name: lcm
     urls:
     - lcm-0.8.2.tgz
     version: 0.8.2
-  - created: 2017-12-23T11:13:23.559833+04:00
+  - created: 2017-12-23T12:28:58.146941+04:00
     description: Kubernetes cluster lifecycle management
     digest: 07b066cf67058ba7803cbf34cf84b2102544d7beecd57f9044b887e74568020c
     name: lcm
     urls:
     - lcm-0.8.1.tgz
     version: 0.8.1
-  - created: 2017-12-23T11:13:23.556596+04:00
+  - created: 2017-12-23T12:28:58.144087+04:00
     description: Kubernetes cluster lifecycle management
     digest: c558967cec927680635335481c59200c7d538cabb46e3695f3c0c163557a653c
     name: lcm
     urls:
     - lcm-0.8.0.tgz
     version: 0.8.0
-  - created: 2017-12-23T11:13:23.553253+04:00
+  - created: 2017-12-23T12:28:58.139474+04:00
     description: Kubernetes cluster lifecycle management
     digest: 5aef8c85d6e9345dcc00fff47126708ebad20c36936ace2e59b83448ee942c9f
     name: lcm
     urls:
     - lcm-0.7.0.tgz
     version: 0.7.0
-  - created: 2017-12-23T11:13:23.550817+04:00
+  - created: 2017-12-23T12:28:58.137067+04:00
     description: Kubernetes cluster lifecycle management
     digest: a140fee3615eeb6f905f1dd2e8e100f04d1bfcd4679f155e8b58020c03347967
     name: lcm
     urls:
     - lcm-0.6.4.tgz
     version: 0.6.4
-  - created: 2017-12-23T11:13:23.548968+04:00
+  - created: 2017-12-23T12:28:58.135007+04:00
     description: Kubernetes cluster lifecycle management
     digest: 98dc416e1834e56487397041c89677ad3e2c7549e0522521fd05a2f67ba7192d
     name: lcm
     urls:
     - lcm-0.6.3.tgz
     version: 0.6.3
-  - created: 2017-12-23T11:13:23.546035+04:00
+  - created: 2017-12-23T12:28:58.133142+04:00
     description: Kubernetes cluster lifecycle management
     digest: d05ce2a9211df45eda4d229ab9ebea844553956e078c92647eee32d22a008b59
     name: lcm
     urls:
     - lcm-0.6.2.tgz
     version: 0.6.2
-  - created: 2017-12-23T11:13:23.544041+04:00
+  - created: 2017-12-23T12:28:58.131274+04:00
     description: Kubernetes cluster lifecycle management
     digest: 3e2ab2ebf75f21760a937a819dcebdd19e4b306f8064180d4aadf2e1606754a4
     name: lcm
     urls:
     - lcm-0.6.1.tgz
     version: 0.6.1
-  - created: 2017-12-23T11:13:23.541201+04:00
+  - created: 2017-12-23T12:28:58.128079+04:00
     description: Kubernetes cluster lifecycle management
     digest: 18e4cf9a452ef27f7560ba9fd08c19473abc4d6353c2d42b7468198a8e83e269
     name: lcm
     urls:
     - lcm-0.6.0.tgz
     version: 0.6.0
-  - created: 2017-12-23T11:13:23.539236+04:00
+  - created: 2017-12-23T12:28:58.126268+04:00
     description: Kubernetes cluster lifecycle management
     digest: 4d4aabc2a9cf741c328d5ca9f21e5018ea0f0f8dc092d72942b38349b281b8fa
     name: lcm
     urls:
     - lcm-0.5.1.tgz
     version: 0.5.1
-  - created: 2017-12-23T11:13:23.537196+04:00
+  - created: 2017-12-23T12:28:58.124442+04:00
     description: Kubernetes cluster lifecycle management
     digest: a89119bd14d13111f47044b3ebeccea1bcb439d6cf01db23c1a6840363c764c7
     name: lcm
     urls:
     - lcm-0.5.0.tgz
     version: 0.5.0
-  - created: 2017-12-23T11:13:23.535044+04:00
+  - created: 2017-12-23T12:28:58.122603+04:00
     description: Kubernetes cluster lifecycle management
     digest: 0e6aa5f0b803e504b4b57ab7f60233eb9dcf2c3d4e9da89f40a1764ea8c3fa5e
     name: lcm
     urls:
     - lcm-0.4.3.tgz
     version: 0.4.3
-  - created: 2017-12-23T11:13:23.531739+04:00
+  - created: 2017-12-23T12:28:58.120598+04:00
     description: Kubernetes cluster lifecycle management
     digest: 30b148cb4c9a6698e18dc29062f3acd5cf14de0754c892ec991848808663be99
     name: lcm
     urls:
     - lcm-0.4.2.tgz
     version: 0.4.2
-  - created: 2017-12-23T11:13:23.529672+04:00
+  - created: 2017-12-23T12:28:58.118419+04:00
     description: Kubernetes cluster lifecycle management
     digest: 6a053265469453f04e3e3ace6b41be71fd5f60d1da43087c7a222e2c25e7d561
     name: lcm
     urls:
     - lcm-0.4.1.tgz
     version: 0.4.1
-  - created: 2017-12-23T11:13:23.527797+04:00
+  - created: 2017-12-23T12:28:58.114472+04:00
     description: Kubernetes cluster lifecycle management
     digest: 2d07ad924ea7a779fa099b1026b40dc07088d6638957e5cf55f063128381bfff
     name: lcm
     urls:
     - lcm-0.4.0.tgz
     version: 0.4.0
-  - created: 2017-12-23T11:13:23.525906+04:00
+  - created: 2017-12-23T12:28:58.112436+04:00
     description: Kubernetes cluster lifecycle management
     digest: f60b96fd3959fe003e40b537279ec3e959a48c90d725c00e74402837fee76af8
     name: lcm
     urls:
     - lcm-0.3.0.tgz
     version: 0.3.0
-  - created: 2017-12-23T11:13:23.524089+04:00
+  - created: 2017-12-23T12:28:58.110546+04:00
     description: Kubernetes cluster lifecycle management
     digest: 27599a39ed6c8d471f0057976bc9205de5cc3d059338ab129c4ce2dde42fff64
     name: lcm
     urls:
     - lcm-0.2.0.tgz
     version: 0.2.0
-  - created: 2017-12-23T11:13:23.500973+04:00
+  - created: 2017-12-23T12:28:58.082493+04:00
     description: Kubernetes cluster lifecycle management
     digest: 195161e1ff147ee7b225465e28dcbc2709400f1822225b7b191c30c2bd48ebf7
     name: lcm
@@ -185,11 +192,11 @@ entries:
     - lcm-0.1.0.tgz
     version: 0.1.0
   syslog:
-  - created: 2017-12-23T11:13:23.568496+04:00
+  - created: 2017-12-23T12:28:58.154471+04:00
     description: A Helm chart for Syslog-ng.
     digest: 435c9cf88192e280b3f56796dfaab378633a86c681bc97914d10b31a464b7413
     name: syslog
     urls:
     - syslog/syslog-0.1.0.tgz
     version: 0.1.0
-generated: 2017-12-23T11:13:23.497895+04:00
+generated: 2017-12-23T12:28:58.078704+04:00
