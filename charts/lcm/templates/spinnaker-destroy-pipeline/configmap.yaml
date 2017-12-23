@@ -42,7 +42,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "${ parameters.ENV_ID }"
+          },
           "name": "Destroy nodes",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "1",

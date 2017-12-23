@@ -61,7 +61,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "${ parameters.ENV_ID }"
+          },
           "name": "Provision nodes",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "2",
@@ -96,7 +98,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "${ parameters.ENV_ID }"
+          },
           "name": "Prepare config",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "1",

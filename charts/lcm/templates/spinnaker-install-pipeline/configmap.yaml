@@ -43,7 +43,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "${ parameters.ENV_ID }"
+          },
           "name": "Prepare nodes",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "3",
@@ -76,7 +78,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "${ parameters.ENV_ID }"
+          },
           "name": "Deploy Kubernetes",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "4",
@@ -111,7 +115,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "${ parameters.ENV_ID }"
+          },
           "name": "Configure Kubernetes",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "5",
@@ -146,7 +152,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "${ parameters.ENV_ID }"
+          },
           "name": "Migrate lcm",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "6",
@@ -181,7 +189,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "${ parameters.ENV_ID }"
+          },
           "name": "Deployment information",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "7",

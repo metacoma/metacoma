@@ -57,7 +57,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "${ parameters.ENV_ID }"
+          },
           "name": "Prepare config",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "1",

@@ -39,7 +39,9 @@ data:
             "name": "k8spray",
             "volumeMounts": []
           },
-          "labels": {},
+          "labels": {
+            "envId": "{{ .Values.envId }}"
+          },
           "name": "Scale Kubernetes",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "1",
