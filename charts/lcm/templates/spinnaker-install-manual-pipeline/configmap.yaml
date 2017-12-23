@@ -10,7 +10,7 @@ data:
       "appConfig": {},
       "keepWaitingPipelines": false,
       "lastModifiedBy": "anonymous",
-      "limitConcurrent": true,
+      "limitConcurrent": false,
       "parallel": true,
       "parameterConfig": [
         {
