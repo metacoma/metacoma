@@ -5,7 +5,7 @@ image:
   pullPolicy: IfNotPresent
 
 configFile: |
-  @version: 3.12
+  @version: 3.13
 
   log {
     source { udp(ip('0.0.0.0'), port(514)); tcp(ip('0.0.0.0'), port(601)); };
