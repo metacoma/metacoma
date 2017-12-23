@@ -13,18 +13,22 @@ for chart in spinnaker fluentd lcm; do
     popd
 done
 
-# Build lcm package
+# Build lcm and shellinabox packages
 
-helm package "$charts_dir/lcm"
+for chart in lcm shellinabox; do
+    helm package "$charts_dir/$chart"
+done
 
-# Publish package
+# Publish packages
 
 git fetch origin
 git checkout origin/gh-pages
-chart_name="$(ls lcm-*)"
+lcm_chart_name="$(ls lcm-*)"
+shellinabox_chart_name="$(ls shellinabox-*)"
 
-mv ${chart_name} charts
+mv ${lcm_chart_name} charts
+mv ${shellinabox_chart_name} charts
 helm repo index charts
-git add charts/${chart_name} charts/index.yaml
-git commit -m "Publish new version of chart: ${chart_name%.*}"
+git add charts/${shellinabox_chart_name} charts/${lcm_chart_name} charts/index.yaml
+git commit -m "Publish new version of charts: ${lcm_chart_name%.*} ${shellinabox_chart_name%.*}"
 git push origin HEAD:gh-pages

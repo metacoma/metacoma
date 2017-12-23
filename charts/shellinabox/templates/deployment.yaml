@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "shellinabox.fullname" . }}
+  labels:
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "shellinabox.fullname" . }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "shellinabox.fullname" . }}
+    spec:
+      initContainers:
+      - name: kubeconfig
+        image: "{{ .Values.image.repository }}{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        command:
+        - sh
+        - -ce
+        - |
+          kubectl config set-cluster default --server=https://kubernetes.default --certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          kubectl config set-context default --cluster=default
+          token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+          kubectl config set-credentials user --token=$token
+          kubectl config set-context default --user=user --namespace {{ .Release.Namespace }}
+          kubectl config use-context default
+        volumeMounts:
+        - mountPath: /root/.kube/
+          name: kubeconfig
+      containers:
+      - name: shellinabox
+        image: "{{ .Values.image.repository }}{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+        - sh
+        - -cxe
+        - |
+          cp /etc/command/command.sh /tmp/command.sh
+          chmod +x /tmp/command.sh
+          shellinaboxd -u 0 -g 0 -t -p80 -s "/console/{{ .Values.envId }}:root:root:/tmp/:/tmp/command.sh"
+        volumeMounts:
+        - mountPath: /root/.kube/
+          name: kubeconfig
+        - mountPath: /etc/command/
+          name: command
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+      volumes:
+      - name: kubeconfig
+        emptyDir: {}
+      - name: command
+        configMap:
+          name: {{ template "shellinabox.fullname" . }}

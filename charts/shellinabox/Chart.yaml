@@ -1,0 +1,3 @@
+description: A Helm chart for shellinabox.
+name: shellinabox
+version: 0.1.0
