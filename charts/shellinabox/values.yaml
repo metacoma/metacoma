@@ -1,5 +1,8 @@
 envId: ""
 
+rbac:
+  enabled: true
+
 image:
   repository: k8sprayorg/
   name: shellinabox
