@@ -11,4 +11,4 @@ data:
   command.sh: |
     #!/bin/sh
 
-    stern --kubeconfig /root/.kube/config -l envId={{ .Values.envId }} | awk '{$1=$2=""; print $0}'
+    stern --kubeconfig /root/.kube/config -l app={{ template "shellinabox-logs.fullname" . }} | awk '{$1=$2=""; print $0}'

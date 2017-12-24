@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "shellinabox-logs.fullname" . }}
+  labels:
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "shellinabox-logs.fullname" . }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "shellinabox-logs.fullname" . }}
+    spec:
+      serviceAccountName: {{ template "shellinabox.fullname" . }}
+      initContainers:
+      - name: kubeconfig
+        image: "{{ .Values.image.repository }}{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        command:
+        - sh
+        - -ce
+        - |
+          kubectl config set-cluster default --server=https://kubernetes.default --certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          kubectl config set-context default --cluster=default
+          token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+          kubectl config set-credentials user --token=$token
+          kubectl config set-context default --user=user --namespace {{ .Release.Namespace }}
+          kubectl config use-context default
+        volumeMounts:
+        - mountPath: /root/.kube/
+          name: kubeconfig
+      containers:
+      - name: shellinabox-logs
+        image: "{{ .Values.image.repository }}{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+        - sh
+        - -ce
+        - |
+          stern -l envId={{ .Values.envId }} | awk '{$1=$2=""; print $0}'
+        volumeMounts:
+        - mountPath: /root/.kube/
+          name: kubeconfig
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+      volumes:
+      - name: kubeconfig
+        emptyDir: {}
