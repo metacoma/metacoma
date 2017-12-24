@@ -33,6 +33,20 @@ data:
         },
         {
           "name": "AWS_REGION"
+        },
+        {
+          "default": "false",
+          "description": "Deploy site with console",
+          "hasOptions": true,
+          "name": "SITE",
+          "options": [
+            {
+              "value": "true"
+            },
+            {
+              "value": "false"
+            }
+          ]
         }
       ],
       "stages": [
@@ -79,35 +93,39 @@ data:
           "application": "{{ .Values.spinnaker.application.name }}",
           "cloudProvider": "kubernetes",
           "cloudProviderType": "kubernetes",
-          "container": {
-            "args": [],
-            "command": [
-              "sh",
-              "-cxe",
-              "curl -d '{\"apocng_uuid\": \"${ parameters.ENV_ID }\", \"apocng_debug\": ${ parameters.DEBUG },  \"apocng_provision_driver\": \"terraform\", \"apocng_k8s_nodes\": ${ parameters.N }, \"apocng_aws\": {\"access_key\": \"${ parameters.AWS_ACCESS_KEY }\", \"secret_key\": \"${ parameters.AWS_SECRET_KEY }\", \"region\": \"${ parameters.AWS_REGION }\"}}' -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/${ parameters.ENV_ID }/"
-            ],
-            "envVars": [],
-            "imageDescription": {
-              "account": "dockerhub",
-              "fromTrigger": false,
-              "organization": "appropriate",
-              "registry": "index.docker.io",
-              "repository": "appropriate/curl",
-              "tag": "latest"
-            },
-            "name": "k8spray",
-            "volumeMounts": []
-          },
+          "containers": [
+            {
+              "args": [],
+              "command": [
+                "sh",
+                "-cxe",
+                "curl -d '{\"apocng_uuid\": \"${ parameters.ENV_ID }\", \"apocng_debug\": ${ parameters.DEBUG },  \"apocng_provision_driver\": \"terraform\", \"apocng_k8s_nodes\": ${ parameters.N }, \"apocng_aws\": {\"access_key\": \"${ parameters.AWS_ACCESS_KEY }\", \"secret_key\": \"${ parameters.AWS_SECRET_KEY }\", \"region\": \"${ parameters.AWS_REGION }\"}}' -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/${ parameters.ENV_ID }/"
+              ],
+              "envVars": [],
+              "imageDescription": {
+                "account": "dockerhub",
+                "fromTrigger": false,
+                "organization": "appropriate",
+                "registry": "index.docker.io",
+                "repository": "appropriate/curl",
+                "tag": "latest"
+              },
+              "name": "k8spray",
+              "volumeMounts": []
+            }
+          ],
           "labels": {},
           "name": "Prepare config",
           "namespace": "{{ .Release.Namespace }}",
           "refId": "1",
-          "requisiteStageRefIds": [],
+          "requisiteStageRefIds": [
+            "4"
+          ],
           "type": "runJob",
           "volumeSources": []
         },
         {
-          "application": "{{ .Values.spinnaker.application.name }}",
+          "application": "lcm",
           "failPipeline": true,
           "name": "Install Kubernetes",
           "pipeline": "${INSTALL_PIPELINE_ID}",
@@ -120,6 +138,102 @@ data:
           ],
           "type": "pipeline",
           "waitForCompletion": true
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "lcm",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [
+                "sh",
+                "-cxe",
+                "helm init -c && helm repo add k8spray https://metacoma.github.io/metacoma/charts/ && helm install -n \"${ parameters.ENV_ID }\" k8spray/shellinabox --set envId=\"${ parameters.ENV_ID }\" --set rbac.enabled=false --set service.type=NodePort --wait && IP=http://$(kubectl get svc shellinabox-${ parameters.ENV_ID } -o jsonpath='{.status.loadBalancer.ingress[0].ip}')/console && curl -d \"{\\\"apocng_console\\\": \\\"$IP\\\"}\" -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/${ parameters.ENV_ID }/"
+              ],
+              "envVars": [],
+              "imageDescription": {
+                "account": "dockerhub",
+                "imageId": "index.docker.io/k8sprayorg/shellinabox:latest",
+                "registry": "index.docker.io",
+                "repository": "k8sprayorg/shellinabox",
+                "tag": "latest"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {},
+              "name": "k8sprayorg-shellinabox",
+              "ports": [],
+              "requests": {},
+              "volumeMounts": []
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "labels": {},
+          "name": "Deploy console",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "4",
+          "requisiteStageRefIds": [],
+          "serviceAccountName": "spinnaker-{{ .Release.Namespace }}-clouddriver",
+          "stageEnabled": {
+            "expression": "${ parameters[\"SITE\"].equals(\"true\") }",
+            "type": "expression"
+          },
+          "type": "runJob"
+        },
+        {
+          "account": "local",
+          "annotations": {},
+          "application": "lcm",
+          "cloudProvider": "kubernetes",
+          "cloudProviderType": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [
+                "sh",
+                "-cex",
+                "helm init -c && helm repo add k8spray https://metacoma.github.io/metacoma/charts/ && helm delete --purge \"${ parameters.ENV_ID }\""
+              ],
+              "envVars": [],
+              "imageDescription": {
+                "account": "dockerhub",
+                "imageId": "index.docker.io/k8sprayorg/shellinabox:latest",
+                "registry": "index.docker.io",
+                "repository": "k8sprayorg/shellinabox",
+                "tag": "latest"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {
+                "cpu": null,
+                "memory": null
+              },
+              "livenessProbe": null,
+              "name": "k8sprayorg-shellinabox",
+              "ports": [],
+              "readinessProbe": null,
+              "requests": {
+                "cpu": null,
+                "memory": null
+              },
+              "volumeMounts": []
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "labels": {},
+          "name": "Destroy console",
+          "namespace": "{{ .Release.Namespace }}",
+          "refId": "5",
+          "requisiteStageRefIds": [
+            "3"
+          ],
+          "serviceAccountName": "spinnaker-{{ .Release.Namespace }}-clouddriver",
+          "stageEnabled": {
+            "expression": "${ parameters[\"SITE\"].equals(\"true\") }",
+            "type": "expression"
+          },
+          "type": "runJob"
         }
       ],
       "triggers": []
