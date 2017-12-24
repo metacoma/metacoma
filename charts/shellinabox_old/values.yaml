@@ -1,0 +1,26 @@
+envId: ""
+
+image:
+  repository: k8sprayorg/
+  name: shellinabox
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  port: 80
+  type: LoadBalancer
+
+  nodePort: ""
+
+  loadBalancerIP: ""
+  loadBalancerSourceRanges: []
+
+  annotations: {}
+
+resources:
+  #requests:
+  #  cpu: 100m
+  #  memory: 512Mi
+  #limits:
+  #  cpu: 100m
+  #  memory: 512Mi

@@ -11,4 +11,5 @@ data:
   command.sh: |
     #!/bin/sh
 
-    stern --kubeconfig /root/.kube/config -l envId={{ .Values.envId }} | awk '{$1=$2=""; print $0}'
+    syslog_pod=$(kubectl get pods -l app=syslog-k8spray -o jsonpath='{.items[*].metadata.name}')
+    kubectl --context default --kubeconfig /root/.kube/config logs -f $syslog_pod | perl -nle 'print $& if m{^k8spray-{{ .Values.envId }}\K.*}'
