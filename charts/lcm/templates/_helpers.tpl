@@ -21,3 +21,7 @@
 {{- define "lcm.redis-address" -}}
 {{ template "redis.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.spinnaker.redis.service.port }}
 {{- end -}}
+
+{{- define "lcm.dashboard.fullname" -}}
+{{- printf "dashboard-%s" .Release.Name | trunc 53 | trimSuffix "-" -}}
+{{- end -}}

@@ -1,0 +1,36 @@
+{{- if .Values.dashboard.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "lcm.dashboard.fullname" . }}
+  namespace: kube-system
+  labels:
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "lcm.dashboard.fullname" . }}
+spec:
+  ports:
+    - port: 443
+      name: https
+      targetPort: 8443
+      {{- if eq .Values.dashboard.service.type "NodePort" }}
+      {{- if .Values.dashboard.service.nodePort }}
+      nodePort: {{ .Values.dashboard.service.nodePort }}
+      {{- end -}}
+      {{- end }}
+  selector:
+    k8s-app: kubernetes-dashboard
+  type: "{{ .Values.dashboard.service.type }}"
+{{- if eq .Values.dashboard.service.type "LoadBalancer" }}
+  {{- if .Values.dashboard.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.dashboard.service.loadBalancerIP }}
+  {{- end -}}
+  {{- if .Values.dashboard.service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+  {{- range .Values.dashboard.service.loadBalancerSourceRanges }}
+  - {{ . }}
+  {{- end }}
+  {{- end -}}
+{{- end -}}
+{{- end }}

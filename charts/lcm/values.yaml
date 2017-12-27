@@ -76,3 +76,13 @@ spinnaker:
 
 fluentd:
   enabled: false
+
+dashboard:
+  enabled: false
+  service:
+    type: LoadBalancer
+
+    nodePort: ""
+
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
