@@ -75,4 +75,4 @@ spinnaker:
           - k8sprayorg/shellinabox
 
 fluentd:
-  enabled: true
+  enabled: false
