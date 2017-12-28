@@ -41,7 +41,7 @@ spec:
         - |
           cp /etc/command/command.sh /tmp/command.sh
           chmod +x /tmp/command.sh
-          shellinaboxd -u 0 -g 0 -t -p80 -s "/console/:root:root:/tmp/:/tmp/command.sh"
+          shellinaboxd -u 0 -g 0 -t -p80 -s "/api/{{ .Values.envId }}/console/:root:root:/tmp/:/tmp/command.sh"
         volumeMounts:
         - mountPath: /root/.kube/
           name: kubeconfig
