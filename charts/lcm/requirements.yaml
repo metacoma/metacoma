@@ -6,3 +6,7 @@ dependencies:
   version: ^0.x
   repository: file://../fluentd
   condition: fluentd.enabled
+- name: wordpress
+  version: 0.7.9
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  condition: wordpress.enabled

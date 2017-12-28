@@ -86,3 +86,17 @@ dashboard:
 
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
+
+wordpress:
+  enabled: false
+  wordpressUsername: k8spray
+  wordpressPassword: k8spray
+  serviceType: ClusterIP
+  persistence:
+    storageClass: gp2
+
+  mariadb:
+    mariadbDatabase: k8spray
+    mariadbUser: k8spray
+    persistence:
+      storageClass: gp2

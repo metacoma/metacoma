@@ -151,7 +151,7 @@ data:
               "command": [
                 "sh",
                 "-cxe",
-                "helm init -c && helm repo add k8spray https://metacoma.github.io/metacoma/charts/ && helm install -n \"${ parameters.ENV_ID }\" k8spray/shellinabox --set envId=\"${ parameters.ENV_ID }\" --wait --timeout 900 && IP=http://shellinabox-${ parameters.ENV_ID }.{{ .Release.Namespace }}.svc.cluster.local/console && curl -d \"{\\\"apocng_console\\\": \\\"$IP\\\"}\" -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/${ parameters.ENV_ID }/"
+                "helm init -c && helm repo add k8spray https://metacoma.github.io/metacoma/charts/ && helm install -n \"${ parameters.ENV_ID }\" k8spray/shellinabox --set envId=\"${ parameters.ENV_ID }\" --wait --timeout 900 && IP=http://shellinabox-${ parameters.ENV_ID }.{{ .Release.Namespace }}.svc.cluster.local/api/${ parameters.ENV_ID }/console && curl -d \"{\\\"apocng_console\\\": \\\"$IP\\\"}\" -k -f https://{{ template "lcm.apocng.fullname" . }}/api/store2/${ parameters.ENV_ID }/"
               ],
               "envVars": [],
               "imageDescription": {
