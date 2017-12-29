@@ -6,6 +6,9 @@ providers:
 
 envId: ""
 
+rbac:
+  enabled: false
+
 apocng:
   image:
     repository: k8sprayorg/
